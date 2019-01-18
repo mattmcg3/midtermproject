@@ -1,0 +1,373 @@
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+public class Main implements KeyListener {
+	
+	private int x = 2, y = 2, numMoved = 1;
+	private boolean hasKey = false, win = false;
+	String direction;
+	
+	private Font font = new Font("Times New Roman", Font.PLAIN, 20);
+	private JFrame window;
+	private JPanel textPanel;
+	private JTextArea textArea;
+	
+	// Game screen
+	public Main() {
+		
+		window = new JFrame();
+		window.setSize(600, 220);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // stop program when window is closed
+		window.setLayout(null);
+		window.setLocationRelativeTo(null); // center window in the screen
+		window.setVisible(true);
+		window.addKeyListener(this); // add the KeyListener so user can use the arrow keys
+		
+		textPanel = new JPanel();
+		textPanel.setBounds(0, 0, 600, 220);
+		textPanel.setBackground(Color.white);
+		window.add(textPanel);
+		
+		textArea = new JTextArea();
+		textArea.setBounds(0, 0, 600, 220);
+		textArea.setBackground(Color.white);
+		textArea.setForeground(Color.black);
+		textArea.setFont(font);
+		textArea.setLineWrap(true);
+		textArea.setEditable(false);
+		textPanel.add(textArea);
+		
+		textArea.setText(" Welcome to Atari!  You are currently in room 1.\n\n"
+				+ " Use the arrow keys to move around, and try to find the exit to this room.\nYou have 3 rooms and 2 castles to "
+				+ "navigate through, and you must find  \n the key in one castle and get the chalice in the other to win.\n\n Good luck!");
+		
+	}
+	
+	
+	// Checks where the player is and detects if they hit a wall, and tells user what room they are in and if they have got the key or chalice
+	public void checkBounds(int x, int y, String direction) {
+		
+		// Handle the user running into walls
+		if (x == 0 && direction=="LEFT") 
+			updateText(true, direction);
+		else if (y==0 && direction=="UP")
+			updateText(true, direction);
+		else if (x==6 && y >=1 && y <= 2&& direction=="RIGHT")
+			updateText(true, direction); 
+		else if (x <= 3 && y==5 && direction == "DOWN")
+			updateText(true, direction); 
+		else if (x ==3 && y==5 && direction == "LEFT")
+			updateText(true, direction); 
+		else if (x>=4 && x<=5 && y==6 && direction=="DOWN")
+			updateText(true, direction); 
+		else if (x==7 && y >=3 && y <=7 && direction=="RIGHT")
+			updateText(true, direction); 
+		else if (x==6 && y ==2 && direction == "UP")
+			updateText(true, direction); 
+		else if (x==5 && y==6 && direction=="LEFT")
+			updateText(true, direction); 
+		else if (x>=4 && x<=5 && y==6 && direction=="UP")
+			updateText(true, direction);
+		else if (x==3 && y>=7 && y<=8 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x>=4 && x<=5 && y==9 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x>=3 && x<=5 && y==9 && direction=="UP")
+			updateText(true, direction);
+		else if (x==5 && y==9 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x==7 && y==7 && direction=="UP")
+			updateText(true, direction);
+		else if (x==7 && y==7 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x==8 && y==6 && direction=="UP")
+			updateText(true, direction);
+		else if (x==9 && y==7 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==9 && y>=9 && y<=11 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x>=7 && x<=8 && y==12 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x>=3 && x<=5 && y==11 && direction=="UP")
+			updateText(true, direction);
+		else if (x==2 & y>=10 && y<=13 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x>=4 && x<=6 && y==13 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x==7 && y==12 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==4 && y ==13 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==9 && y==7 && direction=="UP")
+			updateText(true, direction);
+		else if (x==9 && y==9 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x==9 && y==7 && direction=="UP")
+			updateText(true, direction);
+		else if (x==9 && y>=5 && y<=7 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x==9 && y>=10 && y<= 11 && direction=="LEFT" )
+			updateText(true, direction);
+		else if (x>=10 && x<=14 && y==11 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x==15 && y>=5 && y<=10 && direction=="RIGHT")
+			updateText(true, direction);		
+		else if (x==10 && y==4 && direction=="UP")
+			updateText(true, direction);
+		else if (x==11 && y==5 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==11 && y==5 && direction=="UP")
+			updateText(true, direction);
+		else if (x==11 && y==5 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x==12 && y==4 && direction=="UP")
+			updateText(true, direction);
+		else if (x==13 && y ==5 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==13 && y==5 && direction=="UP")
+			updateText(true, direction);
+		else if (x==13 && y==5 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x==14 && y==4 && direction=="UP")
+			updateText(true, direction);
+		else if (x==1 && y>=14 && y <=17 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x==2 && y==13 && direction=="UP")
+			updateText(true, direction);
+		else if (x>=4 && x <=10 && y==13 && direction=="UP")
+			updateText(true, direction);
+		else if (x>=2 && x<=8 && y ==18 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x==9 && y>=16 && y<= 17 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==9 && y==16 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x==11 && y>=14 && y <= 15 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==9 && y >= 16 && y <=17 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x>=10 && x <=12 && y==18 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x==11 && y==15 && direction=="UP")
+			updateText(true, direction);
+		else if (x==11 && y>=14 && y<=15 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x>=12 && x<=14 && y==13 && direction=="UP")
+			updateText(true, direction);
+		else if (x==14 && y>=15 && y<=18 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==12 && y==18 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x==10 && y>=19 && y<=21 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x>=11 && x<=12 && y==18 && direction=="UP")
+			updateText(true, direction);
+		else if (x>=14 && x<=15 && y==18 && direction=="UP")
+			updateText(true, direction);
+		else if (x==16 && y>=19 && y<=21 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x>=11 && x<=15 && y==22 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x==14 && y==15 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x==14 && y>=15 && y<=17 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x>=15 && x<=19 && y==18 && direction=="DOWN")
+			updateText(true, direction);
+		else if (x==20 && y>=13 && y<=17 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==19 && y==12 && direction=="UP")
+			updateText(true, direction);
+		else if (x==18 && y==13 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x==18 && y==13 && direction=="UP")
+			updateText(true, direction);
+		else if (x==18 && y==13 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==17 && y==12 && direction=="UP")
+			updateText(true, direction);
+		else if (x==16 && y==13 && direction=="LEFT")
+			updateText(true, direction);
+		else if (x==16 && y==13 && direction=="UP")
+			updateText(true, direction);
+		else if (x==16 && y==13 && direction=="RIGHT")
+			updateText(true, direction);
+		else if (x==15 && y==12 && direction=="UP")
+			updateText(true, direction);
+		else if (x==14 && y==13 && direction=="LEFT")
+			updateText(true, direction);
+		
+		else if (x==15 && y==14 && direction=="RIGHT" && !hasKey) { // Stop player from entering second castle if they do not have key
+			updateText(true, direction);
+			textArea.setText("You can not enter castle 2 until you find the key.");
+		}
+		
+		
+		
+		// Tell user what room they are in.  Doors = entering a room, one past the doors = entered room.
+		
+		// Room 1 and 2
+		else if (x == 6 && y==6 && direction=="DOWN")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You are now entering room 2.");
+		else if (x==6&&y==7&&direction=="DOWN")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered room 2.");
+		else if (x ==6 && y==6 && direction=="UP")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You are now entering room 1.");
+		else if (x ==6 && y==5 && direction=="UP")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered room 1.");
+		
+		// Room 2 and Castle 1
+		else if(x==9 && y==8 && direction=="RIGHT")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You are now entering castle 1.");
+		else if (x==10 && y==8 && direction=="RIGHT" && !hasKey) // only tell user there is a key in castle 1 if they have not got it yet
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered castle 1.  "
+					+ "\nThere is a key somewhere here...");
+		else if (x==10 && y==8 && direction=="RIGHT" && hasKey)
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered castle 1.");
+		else if (x==9 && y==8 && direction=="LEFT")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You are now entering room 2.");
+		else if (x==8 && y==8 && direction=="LEFT")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered room 2.");
+		
+		// Key!
+		else if (x==12 && y==7 && !hasKey) { // if user finds key and does not already have it
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ", and have found the key!\nNow go and find the chalice!");
+			hasKey = true;
+		}
+		
+		// Room 2 and 3
+		else if (x==3 && y==13 && direction=="DOWN")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You are now entering room 3.");
+		else if (x==3 && y==14 && direction=="DOWN")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered room 3.");
+		else if (x==3 && y==13 && direction=="UP")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You are now entering room 2.");
+		else if (x==3 && y==12 && direction=="UP")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered room 2.");
+		
+		// Room 3 and 4
+		else if (x==13 && y==18 && direction=="DOWN")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You are now entering room 4.");
+		else if (x==13 && y==19 && direction=="DOWN")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered room 4.");
+		else if (x==13 && y==18 && direction=="UP")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You are now entering room 3.");
+		else if (x==13 && y==17 && direction=="UP")
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered room 3.");
+		
+		// Room 3 and castle 2
+		else if (x==14&&y==14 && direction=="RIGHT" && !hasKey) // tell them to find key if they do not have it yet
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You find the entrance castle 2."
+					+ "\nYou will need a key to enter here...  \n\nGo back and find the key in the other castle!");
+		else if (x==14&&y==14 && direction=="RIGHT" && hasKey)
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You use your key, and are \nnow entering castle 2.");
+		else if (x==15 && y==14 && direction=="RIGHT" && hasKey)
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".  You have entered the second castle.\n"
+					+ "Now find the chalice to win!");
+		else if (x==14 && y==14 && direction=="LEFT") { // stop player from leaving castle 2
+			updateText(true, direction);
+			textArea.setText("You can not leave this castle.  Go find the chalice to win!");
+		}
+		
+		//Chalice!
+		else if (x==19 && y==17) {
+			textArea.setText("You have found the chalice!  YOU WIN!");
+			win = true;
+		}
+		
+		
+		// If the player has hit no walls, entered no rooms, and is not on the key or chalice
+		else {
+			updateText(false, direction);
+		}
+		
+	}
+	
+	
+	// Updates the text area based on if the user has hit a wall or not
+	public void updateText(boolean hitWall, String direction) {
+		if (hitWall && direction=="UP") {
+			textArea.setText("You can not move further up because there is a wall.");
+			y+=1; // return player to previous position if they have hit a wall
+		} 
+		else if (hitWall && direction=="DOWN") {
+			textArea.setText("You can not move further down because there is a wall.");
+			y--;
+		} 
+		else if (hitWall && direction=="LEFT") {
+			textArea.setText("You can not move further left because there is a wall.");
+			x++;
+		} 
+		else if (hitWall && direction == "RIGHT") {
+			textArea.setText("You can not move further right because there is a wall.");
+			x--;
+		} 
+		else if (!hitWall) {
+			textArea.setText("You have moved " + direction.toLowerCase() + " " + numMoved + ".");
+		}
+	}
+
+	// Takes the arrow key inputs 
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_UP && !win) { // don't let player hit the arrow keys if they have won the game (game is over)
+			if (direction=="UP") // keep track of how many times in a row a one has moved in one direction
+				numMoved++; // numMoved = # of times a user has moved consecutively in one direction
+			else
+				numMoved = 1;
+
+			direction="UP";
+			y--; // move player
+			checkBounds(x, y, direction); 
+		}
+		if (e.getKeyCode() == KeyEvent.VK_DOWN && !win) {
+			if (direction=="DOWN") 
+				numMoved++;
+			else
+				numMoved = 1;
+			
+			direction="DOWN";
+			y++;
+			checkBounds(x, y, direction);
+		}
+		if (e.getKeyCode() == KeyEvent.VK_LEFT && !win) {
+			if (direction=="LEFT") 
+				numMoved++;
+			else
+				numMoved = 1;
+			
+			direction="LEFT";
+			x--;
+			checkBounds(x, y, direction);
+		}
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT && !win) {
+			if (direction=="RIGHT") 
+				numMoved++;
+			else
+				numMoved = 1;
+			
+			direction="RIGHT";
+			x++;
+			checkBounds(x, y, direction);
+		} 
+	}
+	
+	public void keyTyped(KeyEvent e) {
+		
+	}
+
+	public void keyReleased(KeyEvent e) {
+		
+	}
+	
+	// create constructor
+	public static void main(String[] arg) {
+		new Main();
+	}
+
+}
